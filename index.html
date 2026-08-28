@@ -8,8 +8,7 @@
       content="董西垣的个人网站。关注 AI 对话理解、认知框架与跨领域连接，记录正在验证的想法和实践。"
     />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#f4f6f3" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#101615" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f4f6f3" data-theme-color />
     <meta property="og:title" content="董西垣｜把直觉变成可以被验证的模型" />
     <meta
       property="og:description"
@@ -17,6 +16,14 @@
     />
     <title>董西垣｜把直觉变成可以被验证的模型</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <script>
+      try {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "light" || savedTheme === "dark") {
+          document.documentElement.dataset.theme = savedTheme;
+        }
+      } catch {}
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -63,6 +70,11 @@
           <a href="#method">方法与能力</a>
           <a href="#about">关于</a>
           <a href="#contact">联系</a>
+          <div class="theme-switch" role="group" aria-label="外观模式">
+            <button type="button" data-theme-choice="system" aria-pressed="true">自动</button>
+            <button type="button" data-theme-choice="light" aria-pressed="false">日</button>
+            <button type="button" data-theme-choice="dark" aria-pressed="false">夜</button>
+          </div>
         </nav>
       </div>
     </header>

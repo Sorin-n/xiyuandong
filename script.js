@@ -3,6 +3,17 @@ const menuToggle=document.querySelector("[data-menu-toggle]");
 const nav=document.querySelector("[data-nav]");
 const navLinks=[...nav.querySelectorAll("a[href^='#']")];
 const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)");
+const systemTheme=window.matchMedia("(prefers-color-scheme: dark)");
+const themeChoices=[...document.querySelectorAll("[data-theme-choice]")];
+const themeColor=document.querySelector("[data-theme-color]");
+
+function getSavedTheme(){try{const saved=localStorage.getItem("theme");return saved==="light"||saved==="dark"?saved:"system"}catch{return "system"}}
+function updateThemeColor(mode){const isDark=mode==="dark"||(mode==="system"&&systemTheme.matches);themeColor?.setAttribute("content",isDark?"#101615":"#f4f6f3")}
+function setTheme(mode,{save=true}={}){if(mode==="system")delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme=mode;if(save){try{if(mode==="system")localStorage.removeItem("theme");else localStorage.setItem("theme",mode)}catch{}}themeChoices.forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.themeChoice===mode)));updateThemeColor(mode)}
+let themeMode=getSavedTheme();
+setTheme(themeMode,{save:false});
+themeChoices.forEach(button=>button.addEventListener("click",()=>{themeMode=button.dataset.themeChoice;setTheme(themeMode)}));
+systemTheme.addEventListener?.("change",()=>{if(themeMode==="system")updateThemeColor(themeMode)});
 
 function setMenu(open){menuToggle.setAttribute("aria-expanded",String(open));nav.classList.toggle("is-open",open);document.body.classList.toggle("menu-open",open)}
 menuToggle.addEventListener("click",()=>setMenu(menuToggle.getAttribute("aria-expanded")!=="true"));
